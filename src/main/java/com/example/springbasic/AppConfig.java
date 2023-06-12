@@ -1,6 +1,8 @@
 package com.example.springbasic;
 
+import com.example.springbasic.discount.DiscountPolicy;
 import com.example.springbasic.discount.FixDiscountPolicy;
+import com.example.springbasic.member.MemberRepository;
 import com.example.springbasic.member.MemberService;
 import com.example.springbasic.member.MemberServiceImpl;
 import com.example.springbasic.member.MemoryMemberRepository;
@@ -22,10 +24,18 @@ public class AppConfig {
      * AppConfig는 생성한 객체 인스턴스의 참조(래퍼런스)를 생성자를 통해서 주입 해준다.
      */
     public MemberService memberService () {
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
+    }
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
     }
 
-    public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
     }
+
+
 }
