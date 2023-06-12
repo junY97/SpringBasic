@@ -1,10 +1,11 @@
 package com.example.springbasic.order;
 
+import com.example.springbasic.AppConfig;
 import com.example.springbasic.member.Grade;
 import com.example.springbasic.member.Member;
 import com.example.springbasic.member.MemberService;
-import com.example.springbasic.member.MemberServiceImpl;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -12,9 +13,15 @@ import org.junit.jupiter.api.Test;
  * @since 2023-06-12
  */
 public class OrderServiceTest {
+    MemberService memberService;
+    OrderService orderService;
 
-    MemberService memberService = new MemberServiceImpl();
-    OrderService orderService = new OrderServiceImpl();
+    @BeforeEach
+    public void beforeEach () {
+        AppConfig appConfig = new AppConfig();
+        memberService = appConfig.memberService();
+        orderService = appConfig.orderService();
+    }
 
     @Test
     void createOrder() {
