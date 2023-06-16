@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @since 2023-06-16
  */
 public class SingletonTest {
-    
+
     @Test
     @DisplayName("스프링 없는 순수한 DI 컨테이너")
     void pureContainer() {
@@ -30,4 +30,12 @@ public class SingletonTest {
         Assertions.assertThat(memberService1).isNotSameAs(memberService2);
     }
 
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 하용")
+    void SingletonServiceTest() {
+        SingletonService singletonService1 = SingletonService.getInstance();
+        SingletonService singletonService2 = SingletonService.getInstance();
+
+        Assertions.assertThat(singletonService1).isSameAs(singletonService2);
+   }
 }
