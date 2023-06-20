@@ -1,4 +1,4 @@
-package scan.filter;
+package com.example.springbasic.scan.filter;
 
 /**
  * @author junyeong.jo .

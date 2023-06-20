@@ -1,4 +1,4 @@
-package scan;
+package com.example.springbasic.scan;
 
 import com.example.springbasic.AutoAppConfig;
 import com.example.springbasic.member.MemberRepository;
