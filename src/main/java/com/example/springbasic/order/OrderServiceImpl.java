@@ -3,7 +3,7 @@ package com.example.springbasic.order;
 import com.example.springbasic.discount.DiscountPolicy;
 import com.example.springbasic.member.Member;
 import com.example.springbasic.member.MemberRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,11 +11,35 @@ import org.springframework.stereotype.Component;
  * @since 2023-06-08
  */
 @Component
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+    /*
+     * 조회 빈이 똑같은 타입이 2개 이상일 시 해결법
+     *
+     * 1. @Autowired
+     * 2. @Qualifier
+     * 3. @Primary
+     *
+     * @Primary, @Qualifier 활용
+     * 코드에서 자주 사용하는 메인 데이터베이스의 커넥션을 획득하는 스프링 빈이 있고, 코드에서 특별한 기능으로
+     * 가끔 사용하는 서브 데이터베이스 커넥션을 획득하는 스프링 빈이 있다고 생각해보자.
+     * 메인 데이터베이스의 커넥션을 획득하는 스프링 빈은 @Primary를 적용해서 조회하는 곳에서 @Qualifier 지정 없이
+     * 편리하게 조회하고, 서브 데이터베이스 커넥션 빈을 획득 할 때는 @Qualifier를 지정해서 명시적으로 획득하는 방식
+     * 으로 사용하면 코드를 깔끔하게 유지할 수 있다. 물론 이때 메인 데이터베이스의 스프링 빈을 등록할 때 @Qualifier를
+     * 지정해주는 것은 상관없다.
+     *
+     * `우선순위`
+     * @Primary는 기본값 처럼 동작하는 것이고, @Qualifier는 매우 상세하게 동작한다. 이런 경우 어떤 것이 우선권을 가져갈까?
+     * 스프링은 자동보다는 수동이, 넓은 범위의 선택권 보다는 좁은 범위의 선택권이 우선 순위가 높다. 따라서 여기서도
+     * @Qualifier가 우선권이 높다.
+     */
+
 
     /*
      * 다양한 의존관계 주입 방법
