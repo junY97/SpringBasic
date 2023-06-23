@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 public class LogDemoController  {
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider; // ObjectProvider 덕분에 빈의 생성 지연가능
+    private final MyLogger myLogger;
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request) {
         String requestURL = request.getRequestURL().toString();
-        MyLogger myLogger = myLoggerProvider.getObject(); // request 요청이 오면 스프링 컨테이너로 부터 객체 요청
+//        MyLogger myLogger = myLoggerProvider.getObject(); // request 요청이 오면 스프링 컨테이너로 부터 객체 요청
+        System.out.println("myLogger = " + myLogger.getClass()); // 결과를 확인해보면 우리가 등록한 순수한 myLogger
+        // 가 아닌 `class com.example.springbasic.common.MyLogger$$SpringCGLIB`이라는 클래스로 만들어진 객체가 대신 등록되있다.
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LogDemoService {
-    private final ObjectProvider<MyLogger> myLoggerProvider; // ObjectProvider 덕분에 빈의 생성 지연가능
+    private final MyLogger myLogger;
 
     public void logic(String id) {
-        MyLogger myLogger = myLoggerProvider.getObject(); // request 요청이 오면 스프링 컨테이너로 부터 객체 요청
+//        MyLogger myLogger = myLoggerProvider.getObject(); // request 요청이 오면 스프링 컨테이너로 부터 객체 요청
         myLogger.log("service id = " + id);
     }
 }
